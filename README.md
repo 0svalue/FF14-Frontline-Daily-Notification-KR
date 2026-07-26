@@ -1,1 +1,1 @@
-# ffxiv-pvp-alram-bot
+FF14-Frontline-Daily-Notification-KR
