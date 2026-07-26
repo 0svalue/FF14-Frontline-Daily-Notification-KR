@@ -1,8 +1,9 @@
 from datetime import datetime, timedelta, timezone
+import os
 import requests
 
-# 1. 디스코드 웹후크 URL
-WEBHOOK_URL = "https://discord.com/api/webhooks/1530962165299941568/GIO4r1bf3bt-PXbz34r7fJgt50E2wszhuarSPyEmd0qZKEtra-odsIYVFxx0p-kYbKYu"
+# 1. GitHub Secrets에서 디스코드 웹후크 URL을 안전하게 가져옵니다.
+WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL")
 
 # 2. 전장 로테이션 목록 (총 8일 주기)
 ROTATION = [
@@ -17,8 +18,8 @@ ROTATION = [
 ]
 
 # 3. 기준일 설정 (예: 기준일이 '봉인된 바위섬(쟁탈전)'인 날짜 YYYY, MM, DD)
-# 실제 게임 내 해당 날짜로 변경해주세요!
-ANCHOR_DATE = datetime(2026, 7, 29).date()
+# 게임 내 실제 전장 날짜에 맞추어 수정해주세요!
+ANCHOR_DATE = datetime(2026, 7, 27).date()
 
 # 4. 한국 시간(KST) 기준 오늘 날짜 구하기
 kst = timezone(timedelta(hours=9))
@@ -37,10 +38,28 @@ rotation_text = "\n".join(
     ]
 )
 
-message_content = f"""⚔️ **[FF14] 오늘의 전장 안내 ({today.strftime('%Y-%m-%d')})** ⚔️
+today_str = today.strftime("%Y-%m-%d")
 
-**오늘의 전장:** 🔥 **`{today_frontline}`** 🔥
+message_content = (
+    f"⚔️ **[FF14] 오늘의 전장 안내 ({today_str})** ⚔️\n\n"
+    f"오늘의 전장: 🔥 **`{today_frontline}`** 🔥\n\n"
+    f"```text\n"
+    f"[ 8일 로테이션 표 ]\n"
+    f"{rotation_text}\n"
+    f"```"
+)
 
-```text
-[ 8일 로테이션 표 ]
-{rotation_text}
+# 7. 디스코드 웹후크 전송
+if not WEBHOOK_URL:
+    print("에러: DISCORD_WEBHOOK_URL 환경변수가 설정되지 않았습니다.")
+    exit(1)
+
+payload = {"content": message_content}
+response = requests.post(WEBHOOK_URL, json=payload)
+
+if response.status_code in [200, 204]:
+    print("메시지 전송 성공!")
+else:
+    print(
+        f"전송 실패: 상태 코드 {response.status_code}, 응답 내용: {response.text}"
+    )
