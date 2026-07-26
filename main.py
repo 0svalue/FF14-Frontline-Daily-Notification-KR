@@ -45,7 +45,7 @@ rotation_text = "\n".join(
 today_str = today.strftime("%Y-%m-%d")
 
 message_content = (
-    f"** ({today_str} {weekday_str}요일)** \n\n"
+    f"`{today_str} {weekday_str}요일` \n\n"
     f"## 오늘은 🔥 {today_frontline} 🔥\n\n"
     f"```text\n"
     f"[ 8일 로테이션 표 ]\n"
