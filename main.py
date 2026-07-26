@@ -81,7 +81,7 @@ today_str = today.strftime("%Y-%m-%d")
 
 # 박스가 확실히 구분되도록 닫는 백틱(```)과 여는 백틱(```)을 명확하게 지정
 message_content = (
-    f"### [FF14] 오늘의 전장 ({today_str} {weekday_str}요일)\n\n"
+    f"### 오늘의 전장 ({today_str} {weekday_str}요일)\n\n"
     f"```ansi\n"
     f"{today_custom_message}\n"
     f"```\n"
