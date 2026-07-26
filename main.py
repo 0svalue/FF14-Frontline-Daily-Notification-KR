@@ -19,7 +19,7 @@ ROTATION = [
 
 # 3. 기준일 설정 (예: 기준일이 '봉인된 바위섬(쟁탈전)'인 날짜 YYYY, MM, DD)
 # 게임 내 실제 전장 날짜에 맞추어 수정해 주세요!
-ANCHOR_DATE = datetime(2026, 7, 27).date()
+ANCHOR_DATE = datetime(2026, 7, 29).date()
 
 # 4. 한국 시간(KST) 기준 오늘 날짜 및 요일 구하기
 kst = timezone(timedelta(hours=9))
