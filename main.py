@@ -2,7 +2,7 @@ from datetime import datetime, timedelta, timezone
 import os
 import requests
 
-# 1. GitHub Secrets에서 디스코드 웹후크 URL을 안전하게 가져옵니다.
+# 1. GitHub Secrets에서 디스코드 웹후크 URL을 가져옵니다.
 WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL")
 
 # 2. 전장 로테이션 목록 (총 8일 주기)
@@ -18,12 +18,16 @@ ROTATION = [
 ]
 
 # 3. 기준일 설정 (예: 기준일이 '봉인된 바위섬(쟁탈전)'인 날짜 YYYY, MM, DD)
-# 게임 내 실제 전장 날짜에 맞추어 수정해주세요!
-ANCHOR_DATE = datetime(2026, 7, 29).date()
+# 게임 내 실제 전장 날짜에 맞추어 수정해 주세요!
+ANCHOR_DATE = datetime(2026, 7, 27).date()
 
-# 4. 한국 시간(KST) 기준 오늘 날짜 구하기
+# 4. 한국 시간(KST) 기준 오늘 날짜 및 요일 구하기
 kst = timezone(timedelta(hours=9))
 today = datetime.now(kst).date()
+
+# 요일 한글 변환
+weekdays = ["월", "화", "수", "목", "금", "토", "일"]
+weekday_str = weekdays[today.weekday()]
 
 # 5. 오늘 전장 계산 (기준일과의 차이 % 8)
 days_diff = (today - ANCHOR_DATE).days
@@ -41,7 +45,7 @@ rotation_text = "\n".join(
 today_str = today.strftime("%Y-%m-%d")
 
 message_content = (
-    f"⚔️ **[FF14] 오늘의 전장 안내 ({today_str})** ⚔️\n\n"
+    f"⚔️ **[FF14] 오늘의 전장 안내 ({today_str} {weekday_str}요일)** ⚔️\n\n"
     f"오늘의 전장: 🔥 **`{today_frontline}`** 🔥\n\n"
     f"```text\n"
     f"[ 8일 로테이션 표 ]\n"
