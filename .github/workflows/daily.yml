@@ -2,7 +2,8 @@ name: FF14 Frontline Daily Notification
 
 on:
   schedule:
-    - cron: '0 15 * * *'
+    # KST 00:05 (UTC 15:05) - 서버 정각 밀림 방지용
+    - cron: '5 15 * * *'
   workflow_dispatch:
 
 jobs:
