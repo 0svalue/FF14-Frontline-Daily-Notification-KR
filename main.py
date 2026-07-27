@@ -209,7 +209,7 @@ ANCHOR_DATE = datetime(2026, 7, 29).date()
 
 # 4. 한국 시간(KST) 기준 오늘 날짜 및 요일 구하기
 kst = timezone(timedelta(hours=9))
-today = datetime.now(kst).date()
+today = datetime.now(kst).date() + timedelta(days=1)
 
 weekdays = ["월", "화", "수", "목", "금", "토", "일"]
 weekday_str = weekdays[today.weekday()]
